@@ -1,60 +1,76 @@
 const router = require('express').Router();
 const ObjectId = require('mongodb').ObjectId;
 dbconn = require('../db/conn');
+const Note = require('../models/note');
 
 router.get('/', (req, res) => {
-    db = dbconn.getDb();
-    db.collection('notes').find({}).toArray((err, docs) => {
-        if(err) {
-            return res.status(500).send();
-        }
-        res.header('Content-Type', 'application/json');
-        res.send(JSON.stringify(docs, null, 4));
-    });
+    Note.find()
+        .then((notes) => {
+            res.header('Content-Type', 'application/json');
+            res.send(JSON.stringify(notes, null, 4));
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Internal Server Error');
+        });
 });
 
 router.post('/', (req, res) => {
-    db = dbconn.getDb();
-    db.collection('notes').insertOne(req.body, (err, result) => {
-        if(err) {
-            return res.status(500).send();
-        }
-        res.header('Content-Type', 'application/json');
-        res.send(JSON.stringify(result, null, 4));
-    }); 
+    const note = new Note(req.body);
+    note.save()
+        .then((notes) => {
+            res.header('Content-Type', 'application/json');
+            res.send(JSON.stringify(notes, null, 4));
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json('Internal Server Error');
+        });
 });
 
 router.get('/:id', (req, res) => {
-    db = dbconn.getDb();
-    db.collection('notes').findOne({_id: ObjectId(req.params.id)}, (err, result) => {
-        if(err) {
-            return res.status(500).send();
-        }
-        res.header('Content-Type', 'application/json');
-        res.send(JSON.stringify(result, null, 4));
-    });
+    Note.findOne(
+        {
+            _id: ObjectId(req.params.id)
+        })
+        .then((notes) => {
+            res.header('Content-Type', 'application/json');
+            res.send(JSON.stringify(notes, null, 4));
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json('Internal Server Error');
+        });
 });
 
 router.delete('/:id', (req, res) => {
-    db = dbconn.getDb();
-    db.collection('notes').deleteOne({ _id: ObjectId(req.params.id)}, (err, result) => {
-        if(err) {
-            return res.status(500).send();
-        }
-        res.header('Content-Type', 'application/json');
-        res.send(JSON.stringify(result, null, 4));
-    });
+    Note.deleteOne({
+        _id: ObjectId(req.params.id)
+        })
+        .then((notes) => {
+            res.header('Content-Type', 'application/json');
+            res.send(JSON.stringify(notes, null, 4));
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json('Internal Server Error');
+        });
 });
 
 router.patch('/:id', (req, res) => {
-    db = dbconn.getDb();
-    db.collection('notes').updateOne({ _id: ObjectId(req.params.id)}, {$set: req.body}, (err, result) => {
-        if(err) {
-            return res.status(500).send();
-        }
-        res.header('Content-Type', 'application/json');
-        res.send(JSON.stringify(result, null, 4));
-    });
+    Note.updateOne(
+        {
+        _id: ObjectId(req.params.id)
+        }, 
+        req.body)
+        .then((notes) => {
+            res.header('Content-Type', 'application/json');
+            res.send(JSON.stringify(notes, null, 4));
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).json('Internal Server Error');
+        });
 });
 
 module.exports = {

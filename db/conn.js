@@ -1,22 +1,14 @@
 require('dotenv').config();
 
-const {MongoClient} = require('mongodb');
-const client = new MongoClient(process.env.MONGO_DB_URI, {useNewUrlParser: true});
-
-let db;
+const mongoose = require('mongoose');
 
 const initDb = () => {
-    client.connect((err) => {
-        if (err) {
-            console.log(err);
-            return err;
-        }
-        db = client.db('NodeTodo');
-        return;
-    })
+    mongoose
+    .connect(process.env.MONGO_DB_URI, {useNewUrlParser: true})
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.log(err));
 };
 
 module.exports = {
     initDb,
-    getDb: () => db
 }
