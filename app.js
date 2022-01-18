@@ -4,6 +4,8 @@ const router = require('./routes/index');
 
 const db = require('./db/conn');
 
+app.use(express.json());
+
 app.use('/', router.router);
 
 db.initDb();

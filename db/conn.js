@@ -16,13 +16,6 @@ const initDb = () => {
     })
 };
 
-/* const getDb = () => {
-    return db;
-};
-module.exports = {
-    getDb
-} */
-
 module.exports = {
     initDb,
     getDb: () => db
