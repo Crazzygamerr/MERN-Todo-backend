@@ -1,5 +1,5 @@
-# NodeTodo
-A note API made with Node.js
+# MERN Todo
+A note API made with Node.js and Express
 
 ### Requirements:
 [Node.js](https://nodejs.org/en/), [Express](http://expressjs.com/), [MongoDB](https://cloud.mongodb.com/)
