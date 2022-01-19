@@ -5,7 +5,7 @@ A note API made with Node.js and Express
 [Node.js](https://nodejs.org/en/), [Express](http://expressjs.com/), [MongoDB](https://cloud.mongodb.com/)
 
 ### Getting started
-- Git clone https://github.com/Crazzygamerr/NodeTodo.git
+- Git clone https://github.com/Crazzygamerr/MERN-Todo-backend.git
 - Install dependecies using `npm install package.json`
 - Rename .env-sample to .env. And add your MongoDB collection link. Ex: 
   `MONGO_DB_URI=mongodb+srv://<yourUsername>:<yourPassword>@<yourCluster>/<collectionName>`
